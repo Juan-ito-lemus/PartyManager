@@ -4,7 +4,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Inventory;
 use App\Models\Product;
-
+use Illuminate\Support\Facades\Storage;
+use Barryvdh\DomPDF\Facade\pdf as PDF;
 
 class InventoryController extends Controller
 {
@@ -15,7 +16,12 @@ class InventoryController extends Controller
         return view('IndexInventory', compact('inventory', 'products'));
     }
     
-    
+    public function pdf() {
+        $inventory = Inventory::all();
+        $pdf = PDF::loadView('pdf.listado-inventario', compact('inventory'));
+        return $pdf->download('listado-inventario.pdf');
+
+    }
 
     public function create()
     {
@@ -24,18 +30,6 @@ class InventoryController extends Controller
     }
     
 
-    public function store(Request $request)
-    {
-        $inventory = new Inventory();
-
-        $inventory->product_id = $request->input('product_id');
-        $inventory->cantidad_disponible = $request->input('cantidad_disponible');
-        $inventory->estado = $request->input('estado');
-
-        $inventory->save();
-        return redirect()->route('inventory.index');
-    }
-
     public function show($id)
     {
         $inventory = Inventory::find($id);
@@ -43,9 +37,41 @@ class InventoryController extends Controller
         if ($inventory) {
             return view('InventoryShow', compact('inventory'));
         } else {
-            return redirect()->route('inventory.index')->with('error', 'Inventario no encontrado.');
+            return redirect()->route('IndexInventory')->with('error', 'Inventario no encontrado.');
         }
     }
+    
+
+    public function store(Request $request)
+    {
+            $validator = \Validator::make($request->all(), [
+            'product_id' => 'required|integer',
+            'cantidad_disponible' => 'required|integer|min:0',
+            'estado' => 'required|in:activo,inactivo',
+        ], [
+            'required' => 'El campo :attribute es obligatorio.',
+            'integer' => 'El campo :attribute debe ser un número entero.',
+            'min' => 'El campo :attribute debe ser mayor o igual a :min.',
+            'in' => 'El campo :attribute debe ser uno de los siguientes valores: :values.',
+        ]);
+    
+        if ($validator->fails()) {
+            return redirect()->route('inventory.create')
+                ->withErrors($validator)
+                ->withInput();
+        }
+    
+        $inventory = new Inventory();
+        $inventory->product_id = $request->input('product_id');
+        $inventory->cantidad_disponible = $request->input('cantidad_disponible');
+        $inventory->estado = $request->input('estado');
+    
+        $inventory->save();
+    
+        return redirect()->route('inventory.index');
+    }
+    
+
     
 
     public function edit($id)

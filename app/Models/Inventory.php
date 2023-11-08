@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Laravel\Scout\Searchable;
 
 class Inventory extends Model
 {
@@ -13,6 +14,6 @@ class Inventory extends Model
         return $this->belongsTo(Product::class, 'product_id', 'id');
     }
     use HasFactory;
-
+    use Searchable;
     protected $table = 'inventory';
 }

@@ -1,0 +1,40 @@
+
+    @font-face {
+        font-family: 'glyphicons_halflings_normal';
+        src: url('{{ storage_path('fonts/glyphicons_halflings_normal_3d76689c6cd5d64eacf204729ecf81bc.ufm') }}') format('truetype');
+    }
+    body {
+    
+        display: flex;
+        justify-content: center; /* Centrar horizontalmente */
+        align-items: center; /* Centrar verticalmente */
+        height: 100vh;
+    }
+    .container {
+        background-color: #fff;
+        border-radius: 5px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+        padding: 20px;
+        margin-top: 20px;
+    }
+    .table {
+        background-color: #fff;
+        border-collapse: collapse;
+        width: 100%;
+    }
+    th, td {
+        padding: 8px;
+        text-align: center; /* Centrar contenido de celdas */
+    }
+    th {
+        background-color: #007bff;
+        color: #fff;
+    }
+    img {
+        max-width: 100%;
+    }
+    #logo {
+        position: fixed;
+        top: 20px;
+        left: 20px;
+    }

@@ -15,7 +15,7 @@
             </div>
             <div class="col-md-8">
                 <div class="card-body">
-                    <h5 class="card-title">{{$client->id}}: {{$client->name}} {{$client->lastname}}</h5>
+                    <h5 class="card-title">{{$client->name}} {{$client->lastname}}</h5>
                     <ul class="list-group list-group-flush">
                         <li class="list-group-item">Colonia: {{$client->colony}}</li>
                         <li class="list-group-item">Direccion: {{$client->address}}</li>
@@ -26,7 +26,7 @@
                 </div>
                 <div class="card-footer">
                     <a href="{{ route('clients.edit', $client->id) }}" class="btn btn-success">Editar</a>
-    
+                    <a href="{{ route('listado.pdf') }}" class="btn btn-primary">PDF</a>
                     <!-- Agregar el botón de eliminación -->
                     <form method="POST" action="{{ route('clients.destroy', $client->id) }}" style="display: inline;">
                         @csrf

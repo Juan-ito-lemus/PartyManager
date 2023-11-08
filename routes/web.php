@@ -17,6 +17,8 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+
+
 use App\Http\Controllers\ClientController;
 Route::resource('/Clients', ClientController::class);
 Route::get('/Client/Create', [ClientController::class, 'Create']);
@@ -24,7 +26,7 @@ Route::delete('/Client/Delete/{client}', [ClientController::class, 'destroy'])->
 Route::get('/Client/Show/{client}', [ClientController::class, 'show'])->name('clients.show');
 Route::get('/Clients/Edit/{id}', [ClientController::class, 'edit'])->name('clients.edit');
 Route::put('/Clients/{client}', [ClientController::class, 'update'])->name('clients.update');
-
+Route::get('descargar-clientes', [ClientController::class, 'pdf'])->name('listado.pdf');
 
 use App\Http\Controllers\ProductController;
 Route::resource('/Products', ProductController::class);
@@ -33,6 +35,7 @@ Route::delete('/Product/Delete/{product}', [ProductController::class, 'destroy']
 Route::get('/Product/Show/{product}', [ProductController::class, 'show'])->name('products.show');
 Route::get('/Product/Edit/{id}', [ProductController::class, 'edit'])->name('products.edit');
 Route::put('/Product/{product}', [ProductController::class, 'update'])->name('products.update');
+Route::get('descargar-productos', [ProductController::class, 'pdf'])->name('listado-producto.pdf');
 
 use App\Http\Controllers\InventoryController;
 Route::get('/Inventory', [InventoryController::class, 'index'])->name('inventory.index');
@@ -43,6 +46,7 @@ Route::delete('/Inventory/Delete/{Inventory}', [InventoryController::class, 'des
 Route::get('/Inventory/Show/{Inventory}', [InventoryController::class, 'show'])->name('inventory.show');
 Route::get('/inventory/edit/{id}', [InventoryController::class, 'edit'])->name('inventory.edit');
 Route::put('/Inventory/{Inventory}', [InventoryController::class, 'update'])->name('inventory.update');
+Route::get('descargar-inventario', [InventoryController::class, 'pdf'])->name('listado-inventario.pdf');
 
 use App\Http\Controllers\OrderController;
 Route::get('/orders', [OrderController::class, 'index'])->name('orders.index');
@@ -53,14 +57,20 @@ Route::delete('/orders/delete/{order}', [OrderController::class, 'destroy'])->na
 Route::get('/orders/show/{order}', [OrderController::class, 'show'])->name('orders.show');
 Route::get('/orders/edit/{id}', [OrderController::class, 'edit'])->name('orders.edit');
 Route::put('/orders/{order}', [OrderController::class, 'update'])->name('orders.update');
-
+Route::get('descargar-pedidos', [OrderController::class, 'pdf'])->name('listado-order.pdf');
 use App\Http\Controllers\HomeController;
 Route::get('/', [HomeController::class, 'index'])->name('menu');
 
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
-
+use App\Http\Controllers\SearchController;
+Route::get('search/clients', [SearchController::class, 'searchClients'])->name('search.clients');
+Route::get('search/products', [SearchController::class, 'searchProducts'])->name('search.products');
+Route::get('search/orders', [SearchController::class, 'searchOrders'])->name('search.orders');
 
 
 Auth::routes();
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+
+

@@ -3,9 +3,12 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-
 use App\Http\Controllers\Controller;
 use App\Models\Client;
+use Illuminate\Support\Facades\Storage;
+use Laravel\Scout\Searchable;
+use Barryvdh\DomPDF\Facade\PDF;
+
 
 class ClientController extends Controller
 {
@@ -17,8 +20,39 @@ class ClientController extends Controller
     public function Create(){
         return view('ClientCreate');
     }
+    public function pdf() {
+        $clients = Client::all();
+        $pdf = PDF::loadView('pdf.listado', compact('clients'));
+        return $pdf->download('listado.pdf');
+
+    }
+
     public function store(Request $request)
     {
+        $validator = \Validator::make($request->all(), [
+            'name' => 'required|max:255',
+            'lastname' => 'required|max:255',
+            'colony' => 'required|max:255',
+            'address' => 'required|max:255',
+            'cellphone' => 'required|numeric',
+            'debt' => 'numeric',
+            'debt_comment' => 'max:255',
+            'image' => 'image|mimes:jpeg,jpg,png,gif,svg|max:1048',
+        ], [
+            'required' => 'El campo :attribute es obligatorio.',
+            'numeric' => 'El campo :attribute debe ser un número.',
+            'max' => 'El campo :attribute no debe exceder :max caracteres.',
+            'image' => 'El archivo seleccionado en :attribute no es una imagen válida.',
+            'mimes' => 'Solo se permiten imágenes con extensiones: jpeg, jpg, png, gif, svg.',
+            'max' => 'El tamaño máximo permitido para :attribute es :max kilobytes.',
+        ]);
+    
+        if ($validator->fails()) {
+            return redirect('/Clients/create')
+                ->withErrors($validator)
+                ->withInput();
+        }
+    
         $client = new Client();
         $client->name = $request->input('name');
         $client->lastname = $request->input('lastname');
@@ -26,24 +60,20 @@ class ClientController extends Controller
         $client->address = $request->input('address');
         $client->cellphone = $request->input('cellphone');
         $client->debt = $request->input('debt');
-        $client->comment = $request->input('debt_comment'); // Corregí el nombre del campo
-
+        $client->comment = $request->input('debt_comment');
+    
         if ($request->hasFile('image')) {
-            // Validar y guardar la imagen
-            $request->validate([
-                'image' => 'required|image|mimes:jpeg,jpg,png,gif,svg|max:1048',
-            ]);
-
             $imageName = time() . '.' . $request->image->extension();
             $request->image->move(public_path('images'), $imageName);
-
-            $client->image = $imageName; // Guardar el nombre de la imagen en el modelo
+            $client->image = $imageName;
         }
-
+    
         $client->save();
-        
+    
         return redirect('/Clients');
     }
+    
+    
     /**
      * Display the specified resource.
      */

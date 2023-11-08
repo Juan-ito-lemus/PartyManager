@@ -17,9 +17,6 @@
                 </div>
                 <ul class="list-group list-group-flush">
                     <li class="list-group-item">
-                        <strong>ID del Producto:</strong> {{ $product->id }}
-                    </li>
-                    <li class="list-group-item">
                         <strong>Precio por Unidad:</strong> ${{ $product->price }}
                     </li>
                     <li class="list-group-item">

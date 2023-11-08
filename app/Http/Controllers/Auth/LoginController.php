@@ -6,26 +6,31 @@ use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
+
 class LoginController extends Controller
 {
     use AuthenticatesUsers;
 
-    // Personaliza la ruta de redirección después de iniciar sesión
     protected $redirectTo = '/dashboard';
 
-    /**
-     * Create a new controller instance.
-     *
-     * @return void
-     */
     public function __construct()
     {
         $this->middleware('guest')->except('logout');
     }
 
-    // Personaliza la vista del formulario de inicio de sesión
     public function showLoginForm()
     {
-        return view('auth.login'); // Coloca la vista personalizada aquí
+        return view('auth.login');
+    }
+
+    protected function validateLogin(Request $request)
+    {
+        $request->validate([
+            $this->username() => 'required|string',
+            'password' => 'required|string',
+        ]);
     }
 }
+
