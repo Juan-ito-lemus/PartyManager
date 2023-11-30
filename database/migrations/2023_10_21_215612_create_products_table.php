@@ -19,6 +19,10 @@ return new class extends Migration
             $table->decimal('price', 8, 2);
             $table->decimal('cost', 8, 2)->nullable();
             $table->timestamps(); // Esto maneja created_at y updated_at automáticamente
+            // En la migración de Products
+        Schema::table('products', function (Blueprint $table) {
+            $table->integer('initial_quantity')->default(0);
+});
         });
     }
 

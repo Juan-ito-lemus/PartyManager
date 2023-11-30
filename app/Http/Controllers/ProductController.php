@@ -9,7 +9,7 @@ use App\Models\Product;
 use Illuminate\Support\Facades\Storage;
 use Laravel\Scout\Searchable;
 use Barryvdh\DomPDF\Facade\pdf as PDF;
-
+use App\Models\Order;
 class ProductController extends Controller
 {
     public function pdf() {
@@ -143,12 +143,18 @@ class ProductController extends Controller
     }
     
 
-public function destroy(string $id)
-{
-    $product = Product::find($id);
-
-$product->inventory()->delete(); // Eliminar las referencias en la tabla "inventory"
-$product->delete(); // Luego eliminar el producto
-
-}
+    public function destroy(string $id)
+    {
+        $product = Product::find($id);
+    
+        if (!$product) {
+            return redirect("/products")->with('error', 'Product not found.');
+        }
+    
+        $product->inventory()->delete(); // Eliminar las referencias en la tabla "inventory"
+        $product->delete(); // Luego eliminar el producto
+    
+        return redirect("/Products");
+    }
+    
 }

@@ -40,6 +40,14 @@
     .btn-generate-pdf:hover {
         background-color: #e64d2e;
     }
+    .zoomable {
+    transition: transform 0.3s ease-in-out; /* Agrega una transición suave */
+    transform-origin: center center; /* Establece el origen de la transformación en el centro del objeto */
+}
+
+.zoomable:hover {
+    transform: scale(1.2); /* Escala la imagen al 120% cuando el mouse pasa por encima */
+}
 </style>
 
 <div class="container mt-5">
@@ -68,7 +76,7 @@
         @foreach ($clients as $client)
             <div class="col-md-4 mb-4">
                 <div class="card">
-                    <img src="/images/{{ $client->image }}" class="card-img-top" alt="{{ $client->name }} {{ $client->lastname }}">
+                    <img src="/images/{{ $client->image }}" class="card-img-top zoomable" alt="{{ $client->name }} {{ $client->lastname }}">
                     <div class="card-body">
                         <h5 class="card-title text-center">{{ $client->name }} {{ $client->lastname }}</h5>
                         <ul class="list-group list-group-flush">

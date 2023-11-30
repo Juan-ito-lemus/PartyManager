@@ -16,4 +16,5 @@ class Inventory extends Model
     use HasFactory;
     use Searchable;
     protected $table = 'inventory';
+    
 }

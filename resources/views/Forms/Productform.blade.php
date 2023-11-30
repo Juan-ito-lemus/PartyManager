@@ -30,7 +30,10 @@
         </div>
     </div>
 </div>
-
+@if(isset($product) && $product->image)
+        <p>Imagen Actual:</p>
+        <img src="/images/{{ $product->image }}" class="card-img-top" alt="{{ $product->name }}" style="max-width: 200px; max-height: 200px;">
+@endif
 <div class="mb-3">
     {{ Form::label('image', 'Seleccionar una foto:', ['class' => 'form-label']) }}
     {{ Form::file('image', ['class' => 'form-control-file', 'required' => 'required']) }}

@@ -34,6 +34,11 @@
         {{ Form::label('debt_comment', 'Comentarios:') }}
         {{ Form::text('debt_comment', null, ['class' => 'form-control']) }}
     </div>
+    
+    @if(isset($client) && $client->image)
+        <p>Imagen Actual:</p>
+        <img src="/images/{{ $client->image }}" class="card-img-top" alt="{{ $client->name }} {{ $client->lastname }}" style="max-width: 200px; max-height: 200px;">
+@endif
 
     <div class="form-group">
         {{ Form::label('image', 'Seleccionar una foto:') }}

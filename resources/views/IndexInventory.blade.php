@@ -18,23 +18,25 @@
         <div class="col-md-6 mt-4">
             <div class="card">
                 <div class="row no-gutters">
-                    <div class="col-md-5">
+                    <div class="col-md-12">
                         <img src="/images/{{ $item->product->image }}" class="img-fluid mx-auto d-block" alt="{{ $item->product->name }}" style="max-height: 200px;">
                     </div>
-                    <div class="col-md-7">
+                    <div class="col-md-12">
                         <div class="card-body">
                             <h5 class="card-title">{{ $item->product->name }}</h5>
-                            <p class="card-text"><strong>Cantidad Disponible:</strong> {{ $item->cantidad_disponible }}</p>
-                            <p class="card-text"><strong>Estado:</strong> {{ $item->estado }}</p>
-                            <a href="{{ route('inventory.show', $item->id) }}" class="btn btn-primary">Ver Detalles</a>
+                            <ul class="list-group">
+                                <li class="list-group-item"><strong>Cantidad Disponible:</strong> {{ $item->cantidad_disponible }}</li>
+                                <li class="list-group-item"><strong>Estado:</strong> {{ $item->estado }}</li>
+                            </ul>
                         </div>
-                        <div class="card-footer">
+                        <div class="card-footer text-center">
                             <div class="btn-group" role="group">
-                                <a href="{{ route('inventory.edit', $item->id) }}" class="btn btn-success">Editar Inventario</a>
+                                <a href="{{ route('inventory.show', $item->id) }}" class="btn btn-outline-primary">Ver Detalles</a>
+                                <a href="{{ route('inventory.edit', $item->id) }}" class="btn btn-outline-success">Editar Inventario</a>
                                 <form method="POST" action="{{ route('inventory.destroy', $item->id) }}">
                                     @csrf
                                     @method('DELETE')
-                                    <button type="submit" class="btn btn-danger" onclick="return confirm('¿Seguro que quieres eliminar este producto?')">Eliminar Producto</button>
+                                    <button type="submit" class="btn btn-outline-danger" onclick="return confirm('¿Seguro que quieres eliminar este producto?')">Eliminar Producto</button>
                                 </form>
                             </div>
                         </div>

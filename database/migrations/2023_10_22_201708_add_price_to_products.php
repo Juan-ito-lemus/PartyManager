@@ -6,12 +6,16 @@ use Illuminate\Support\Facades\Schema;
 
 class AddPriceToProducts extends Migration
 {
-    public function up()
-    {
-        Schema::table('products', function (Blueprint $table) {
-            $table->decimal('price', 8, 2); // Crea una columna 'price' tipo decimal
-        });
-    }
+// En la migración 2023_10_22_201708_add_price_to_products.php
+// En la migración 2023_10_22_201708_add_price_to_products.php
+public function up()
+{
+    Schema::table('products', function (Blueprint $table) {
+        $table->decimal('price', 8, 2)->nullable()->after('tu_otra_columna_existente');
+    });
+}
+
+
 
     public function down()
     {

@@ -8,6 +8,8 @@ use App\Models\Client;
 use Illuminate\Support\Facades\Storage;
 use Laravel\Scout\Searchable;
 use Barryvdh\DomPDF\Facade\pdf as PDF;
+use App\Models\Product;
+
 
 class OrderController extends Controller
 {
@@ -15,8 +17,9 @@ class OrderController extends Controller
     public function index()
     {
         $clients = Client::all();
+        $products = Product::all();
         $orders = Order::all();
-        return view('IndexOrder', compact('orders', 'clients'));
+        return view('IndexOrder', compact('orders', 'clients','products'));
     }
     public function pdf() {
         $orders = Order::all();
@@ -27,7 +30,8 @@ class OrderController extends Controller
     public function create()
     {
         $clients = Client::all();
-        return view('OrderCreate', compact('clients'));
+        $products = Product::all(); // Asegúrate de importar el modelo Product
+        return view('OrderCreate', compact('clients', 'products'));
     }
 
     public function store(Request $request)
@@ -37,6 +41,8 @@ class OrderController extends Controller
             'fecha_pedido' => 'required|date',
             'fecha_entrega' => 'required|date',
             'estado' => 'required|max:255',
+            'product_id' => 'required|integer',
+            'quantity' => 'required|integer',
         ], [
             'required' => 'El campo :attribute es obligatorio.',
             'integer' => 'El campo :attribute debe ser un número entero.',
@@ -50,11 +56,29 @@ class OrderController extends Controller
                 ->withInput();
         }
     
+        // Obtener el producto
+        $product = Product::find($request->input('product_id'));
+    
+        if (!$product) {
+            return redirect('/orders/create')->with('error', 'Producto no encontrado.');
+        }
+    
+        // Verificar si hay suficientes existencias
+        if ($product->fee < $request->input('quantity')) {
+            return redirect('/orders/create')->with('error', 'No hay suficientes existencias disponibles.');
+        }
+    
+        // Crear el pedido
         $order = new Order();
         $order->cliente_id = $request->input('cliente_id');
         $order->fecha_pedido = $request->input('fecha_pedido');
         $order->fecha_entrega = $request->input('fecha_entrega');
         $order->estado = $request->input('estado');
+        $order->product_id = $request->input('product_id');
+        $order->quantity = $request->input('quantity');
+        // Actualizar las existencias del producto
+        $product->fee -= $request->input('quantity');
+        $product->save();
     
         $order->save();
     
@@ -76,9 +100,10 @@ class OrderController extends Controller
     public function edit($id)
     {
         $order = Order::find($id);
+        $products = Product::all();
         $clients = Client::all();
 
-        return view('OrderEdit', compact('order', 'clients'));
+        return view('OrderEdit', compact('order', 'clients', 'products'));
     }
 
     public function update(Request $request, $id)
@@ -93,6 +118,11 @@ class OrderController extends Controller
         $order->fecha_pedido = $request->input('fecha_pedido');
         $order->fecha_entrega = $request->input('fecha_entrega');
         $order->estado = $request->input('estado');
+        $order->product_id = $request->input('product_id');
+        $order->quantity = $request->input('quantity');
+        // Actualizar las existencias del producto
+        $product->fee -= $request->input('quantity');
+        $product->save();
 
         $order->save();
         return redirect()->route('orders.show', $order->id)->with('success', 'Pedido actualizado con éxito');
@@ -103,8 +133,21 @@ class OrderController extends Controller
         $order = Order::find($id);
 
         if ($order) {
+            // Obtener el producto asociado al pedido
+            $product = Product::find($order->product_id);
+    
+            if ($product) {
+                // Incrementar la cantidad del producto
+                $product->fee += $order->quantity;
+                $product->save();
+            }
+    
+            // Eliminar el pedido
             $order->delete();
+    
             return redirect("/orders");
+        } else {
+            return redirect("/orders")->with('error', 'Pedido no encontrado.');
         }
     }
 }
