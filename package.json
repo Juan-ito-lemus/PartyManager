@@ -2,25 +2,19 @@
     "private": true,
     "type": "module",
     "scripts": {
-      "dev": "vite",
-      "build": "vite build"
+        "dev": "vite",
+        "build": "vite build"
     },
     "devDependencies": {
-      "@popperjs/core": "^2.11.6",
-      "axios": "^1.1.2",
-      "bootstrap": "^5.2.3",
-      "laravel-vite-plugin": "^0.8.0",
-      "sass": "^1.56.1",
-      "vite": "^4.4.11"
+        "@popperjs/core": "^2.11.6",
+        "axios": "^1.1.2",
+        "bootstrap": "^5.2.3",
+        "laravel-vite-plugin": "^0.8.0",
+        "sass": "^1.56.1",
+        "vite": "^4.4.11"
     },
     "dependencies": {
-      "bootstrap-datepicker": "^1.10.0",
-      "material-kit": "^2.0.4",
-      "laravel-mix": "^6.0.28", 
-      "cross-env": "^7.0.3"       
-    },
-    "browser": {
-      "fs": false  
+        "bootstrap-datepicker": "^1.10.0",
+        "material-kit": "^2.0.4"
     }
-  }
-  
+}

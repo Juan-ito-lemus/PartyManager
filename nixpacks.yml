@@ -1,0 +1,10 @@
+yaml
+build:
+  - composer install --optimize-autoloader
+  - npm install
+  - npm run prod
+
+start:
+  - php artisan serve
+
+
