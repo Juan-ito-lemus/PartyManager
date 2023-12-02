@@ -1,0 +1,7 @@
+build:
+  script: |
+    composer install && npm install && npm run production
+  root_directory: .
+  dependencies:
+    - node_modules
+    - vendor
