@@ -5,10 +5,16 @@ export default defineConfig({
     plugins: [
         laravel({
             input: [
-                'resources/sass/app.scss',
+                'resources/css/app.css',
                 'resources/js/app.js',
             ],
             refresh: true,
         }),
     ],
+    build: {
+        rollupOptions: {
+            external: ['algoliasearch-helper']
+            // Añade aquí cualquier otro módulo externo si es necesario
+        },
+    },
 });
