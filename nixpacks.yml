@@ -1,7 +1,10 @@
+yaml
 build:
-  script: |
-    composer install && npm install && npm run production
-  root_directory: .
-  dependencies:
-    - node_modules
-    - vendor
+  - composer install --optimize-autoloader
+  - npm install
+  - npm run prod
+
+start:
+  - php artisan serve
+
+
