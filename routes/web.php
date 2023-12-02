@@ -60,7 +60,7 @@ Route::put('/orders/{order}', [OrderController::class, 'update'])->name('orders.
 Route::get('descargar-pedidos', [OrderController::class, 'pdf'])->name('listado-order.pdf');
 
 use App\Http\Controllers\HomeController;
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('menu');
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('Menu');
 
 use App\Http\Controllers\SearchController;
 Route::get('search/clients', [SearchController::class, 'searchClients'])->name('search.clients');
