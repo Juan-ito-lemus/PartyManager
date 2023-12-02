@@ -12,11 +12,7 @@ use Illuminate\Support\Facades\Route;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
-
-Route::get('/', function () {
-    return view('login');
-});
-
+Auth::routes();
 
 
 use App\Http\Controllers\ClientController;
@@ -68,7 +64,7 @@ Route::get('search/products', [SearchController::class, 'searchProducts'])->name
 Route::get('search/orders', [SearchController::class, 'searchOrders'])->name('search.orders');
 
 
-Auth::routes();
+
 
 
 
