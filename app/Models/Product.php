@@ -12,12 +12,9 @@ class Product extends Model
     use HasFactory;
     use Searchable;
 
-    protected $fillable = [
-        'nombre',
-        'descripcion',
-        'precio',
-        'cantidad_disponible', // Agrega este campo
-    ];
+// Dentro de tu modelo Product
+protected $fillable = ['name', 'description', 'fee', 'price', 'cost', 'image'];
+
     public function inventory()
     {
         return $this->hasMany(Inventory::class);

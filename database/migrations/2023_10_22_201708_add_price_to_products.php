@@ -10,9 +10,6 @@ class AddPriceToProducts extends Migration
 // En la migración 2023_10_22_201708_add_price_to_products.php
 public function up()
 {
-    Schema::table('products', function (Blueprint $table) {
-        $table->decimal('price', 8, 2)->nullable()->after('tu_otra_columna_existente');
-    });
 }
 
 

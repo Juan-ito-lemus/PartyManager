@@ -15,10 +15,21 @@
     </style>
 </head>
 <div class="container mt-5">
+<div class="col-md-6">
+        </div>
     <h1 class="text-center mb-4">Productos</h1>
-
     <div class="row justify-content-center">
         <div class="col-md-6 text-center">
+        <form action="{{ route('search.products') }}" method="GET" class="form-inline my-2 my-lg-0">
+                <div class="input-group">
+                    <input type="text" name="query" class="form-control" placeholder="Buscar..." aria-label="Search" aria-describedby="basic-addon2">
+                    <div class="input-group-append">
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-search"></i> Buscar
+                        </button>
+                    </div>
+                </div>
+            </form>
             <a href="/Product/Create" class="btn btn-success mb-3">Crear producto</a>
             <a href="{{ route('listado-producto.pdf') }}" class="btn btn-danger mb-3">Generar PDF</a>
         </div>

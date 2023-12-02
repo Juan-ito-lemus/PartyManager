@@ -20,6 +20,7 @@
         </div>
 
         <div class="row justify-content-center mb-4">
+            
             <div class="col-md-6 text-center">
                 <a href="/orders/create" class="btn btn-success mb-3">Crear Pedido</a>
                 <a href="{{ route('listado-order.pdf') }}" class="btn btn-danger mb-3">Generar PDF</a>

@@ -19,10 +19,6 @@ return new class extends Migration
             $table->timestamps();
         
             $table->foreign('product_id')->references('id')->on('products');
-        // En la migración de Inventories
-        Schema::table('inventories', function (Blueprint $table) {
-            $table->integer('reserved_quantity')->default(0);
-});
 
         });
     }

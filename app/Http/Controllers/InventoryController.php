@@ -44,32 +44,38 @@ class InventoryController extends Controller
 
     public function store(Request $request)
     {
+        try {
             $validator = \Validator::make($request->all(), [
-            'product_id' => 'required|integer',
-            'cantidad_disponible' => 'required|integer|min:0',
-            'estado' => 'required|in:activo,inactivo',
-        ], [
-            'required' => 'El campo :attribute es obligatorio.',
-            'integer' => 'El campo :attribute debe ser un número entero.',
-            'min' => 'El campo :attribute debe ser mayor o igual a :min.',
-            'in' => 'El campo :attribute debe ser uno de los siguientes valores: :values.',
-        ]);
+                'product_id' => 'required|integer',
+                'cantidad_disponible' => 'required|integer|min:0',
+                'estado' => 'required|string',
+            ], [
+                'required' => 'El campo :attribute es obligatorio.',
+                'integer' => 'El campo :attribute debe ser un número entero.',
+                'min' => 'El campo :attribute debe ser mayor o igual a :min.',
+                'in' => 'El campo :attribute debe ser uno de los siguientes valores: :values.',
+            ]);
     
-        if ($validator->fails()) {
-            return redirect()->route('inventory.create')
-                ->withErrors($validator)
-                ->withInput();
+            if ($validator->fails()) {
+                return redirect()->route('inventory.create')
+                    ->withErrors($validator)
+                    ->withInput();
+            }
+    
+            $inventory = new Inventory();
+            $inventory->product_id = $request->input('product_id');
+            $inventory->cantidad_disponible = $request->input('cantidad_disponible');
+            $inventory->estado = $request->input('estado');
+    
+            $inventory->save();
+    
+            return redirect()->route('inventory.index')->with('success', 'Inventario creado con éxito');
+        } catch (\Exception $e) {
+            // Log the error or return a specific error view
+            return redirect()->route('inventory.create')->with('error', 'Error al crear el inventario: ' . $e->getMessage());
         }
-    
-        $inventory = new Inventory();
-        $inventory->product_id = $request->input('product_id');
-        $inventory->cantidad_disponible = $request->input('cantidad_disponible');
-        $inventory->estado = $request->input('estado');
-    
-        $inventory->save();
-    
-        return redirect()->route('inventory.index');
     }
+    
     
 
     
