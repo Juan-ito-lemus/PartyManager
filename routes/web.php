@@ -59,7 +59,7 @@ Route::get('/orders/edit/{id}', [OrderController::class, 'edit'])->name('orders.
 Route::put('/orders/{order}', [OrderController::class, 'update'])->name('orders.update');
 Route::get('descargar-pedidos', [OrderController::class, 'pdf'])->name('listado-order.pdf');
 use App\Http\Controllers\HomeController;
-Route::get('/', [HomeController::class, 'index'])->name('menu');
+Route::get('/', [HomeController::class, 'index'])->name('Menu');
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
