@@ -7,7 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Client;
 use Illuminate\Support\Facades\Storage;
 use Laravel\Scout\Searchable;
-use Barryvdh\DomPDF\Facade\PDF;
+use PDF;
 
 
 class ClientController extends Controller

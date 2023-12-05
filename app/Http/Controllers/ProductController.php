@@ -8,14 +8,14 @@ use App\Http\Controllers\Controller;
 use App\Models\Product;
 use Illuminate\Support\Facades\Storage;
 use Laravel\Scout\Searchable;
-use Barryvdh\DomPDF\Facade\pdf as PDF;
+use PDF;
 use App\Models\Order;
 class ProductController extends Controller
 {
     public function pdf() {
         $products = Product::all();
         $pdf = PDF::loadView('pdf.listado-producto', compact('products'));
-        return $pdf->download('listado-producto.pdf');
+        return $pdf->stream('listado-producto.pdf');
 
     }
     public function index()

@@ -7,7 +7,7 @@ use App\Models\Order;
 use App\Models\Client;
 use Illuminate\Support\Facades\Storage;
 use Laravel\Scout\Searchable;
-use Barryvdh\DomPDF\Facade\pdf as PDF;
+use PDF;
 use App\Models\Product;
 
 
@@ -24,7 +24,7 @@ class OrderController extends Controller
     public function pdf() {
         $orders = Order::all();
         $pdf = PDF::loadView('pdf.listado-order', compact('orders'));
-        return $pdf->download('listado-order.pdf');
+        return $pdf->stream('listado-order.pdf');
 
     }
     public function create()

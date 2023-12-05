@@ -36,7 +36,7 @@
 
 <nav class="navbar navbar-expand-md navbar-dark" style="background-color: #333;">
               <div class="container">
-        <a class="navbar-brand" href="http://localhost:8000/">
+        <a class="navbar-brand" href="/menu">
                 <img src="{{ asset('images/OIG.png') }}" alt="Logo" width="50" class="me-2"> PartyManager
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">

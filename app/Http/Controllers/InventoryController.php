@@ -5,7 +5,7 @@ use Illuminate\Http\Request;
 use App\Models\Inventory;
 use App\Models\Product;
 use Illuminate\Support\Facades\Storage;
-use Barryvdh\DomPDF\Facade\pdf as PDF;
+use PDF;
 
 class InventoryController extends Controller
 {
@@ -19,7 +19,7 @@ class InventoryController extends Controller
     public function pdf() {
         $inventory = Inventory::all();
         $pdf = PDF::loadView('pdf.listado-inventario', compact('inventory'));
-        return $pdf->download('listado-inventario.pdf');
+        return $pdf->stream('listado-inventario.pdf');
 
     }
 
