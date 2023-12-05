@@ -23,8 +23,7 @@ class ClientController extends Controller
     public function pdf() {
         $clients = Client::all();
         $pdf = PDF::loadView('pdf.listado', compact('clients'));
-        return $pdf->download('listado.pdf');
-
+        return $pdf->stream('listado.pdf');
     }
 
     public function store(Request $request)
